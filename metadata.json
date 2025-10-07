@@ -1,0 +1,5 @@
+{
+  "name": "Student Club Attendance Tracker",
+  "description": "A comprehensive web application to manage and track student attendance for extracurricular clubs, featuring student and club management, daily attendance tracking, and a visual dashboard with charts.",
+  "requestFramePermissions": []
+}
