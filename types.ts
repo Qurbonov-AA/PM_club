@@ -1,5 +1,5 @@
 
-export type Page = 'dashboard' | 'students' | 'clubs' | 'attendance' | 'teachers';
+export type Page = 'dashboard' | 'students' | 'clubs' | 'attendance' | 'teachers' | 'classes';
 
 export type Role = 'admin' | 'teacher';
 

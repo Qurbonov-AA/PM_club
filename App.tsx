@@ -9,6 +9,7 @@ import ClubManagement from './components/ClubManagement';
 import AttendanceTracking from './components/AttendanceTracking';
 import TeacherManagement from './components/TeacherManagement';
 import Login from './components/Login';
+import ClassAssignment from './components/ClassAssignment';
 
 function App() {
   const [page, setPage] = useState<Page>('dashboard');
@@ -95,6 +96,14 @@ function App() {
     setUsers(prev => prev.filter(u => u.id !== userId));
   };
 
+  const assignStudentsToClass = (studentIds: string[], newGrade: string) => {
+    setStudents(prev =>
+        prev.map(student =>
+            studentIds.includes(student.id) ? { ...student, grade: newGrade } : student
+        )
+    );
+  };
+
   if (!currentUser) {
     return <Login onLogin={handleLogin} error={loginError} />;
   }
@@ -106,9 +115,11 @@ function App() {
       case 'students':
         return <StudentManagement students={students} addStudent={addStudent} updateStudent={updateStudent} deleteStudent={deleteStudent} />;
       case 'clubs':
-        return <ClubManagement clubs={clubs} students={students} addClub={addClub} updateClub={updateClub} deleteClub={deleteClub} />;
+        return <ClubManagement clubs={clubs} students={students} addClub={addClub} updateClub={updateClub} deleteClub={deleteClub} currentUser={currentUser} />;
       case 'attendance':
         return <AttendanceTracking clubs={clubs} students={students} attendanceRecords={attendance} saveAttendance={saveAttendance} />;
+      case 'classes':
+        return <ClassAssignment students={students} assignStudentsToClass={assignStudentsToClass} />;
       case 'teachers':
         if (currentUser.role === 'admin') {
           return <TeacherManagement users={users} addUser={addUser} updateUser={updateUser} deleteUser={deleteUser} />;
