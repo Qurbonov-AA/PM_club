@@ -1,4 +1,3 @@
-
 import type { Student, Club, Attendance, User } from '../types';
 
 export const initialUsers: User[] = [
@@ -7,32 +6,69 @@ export const initialUsers: User[] = [
   { id: 'u3', name: 'Jane Teacher', username: 'teacher2', password: 'password', role: 'teacher' },
 ];
 
-export const initialStudents: Student[] = [
-  { id: 's1', name: 'Liam Smith', studentId: 'S001', grade: '10th', photoUrl: 'https://picsum.photos/seed/s1/100' },
-  { id: 's2', name: 'Olivia Johnson', studentId: 'S002', grade: '11th', photoUrl: 'https://picsum.photos/seed/s2/100' },
-  { id: 's3', name: 'Noah Williams', studentId: 'S003', grade: '9th', photoUrl: 'https://picsum.photos/seed/s3/100' },
-  { id: 's4', name: 'Emma Brown', studentId: 'S004', grade: '12th', photoUrl: 'https://picsum.photos/seed/s4/100' },
-  { id: 's5', name: 'Oliver Jones', studentId: 'S005', grade: '10th', photoUrl: 'https://picsum.photos/seed/s5/100' },
-  { id: 's6', name: 'Ava Garcia', studentId: 'S006', grade: '11th', photoUrl: 'https://picsum.photos/seed/s6/100' },
-  { id: 's7', name: 'Elijah Miller', studentId: 'S007', grade: '9th', photoUrl: 'https://picsum.photos/seed/s7/100' },
-  { id: 's8', name: 'Charlotte Davis', studentId: 'S008', grade: '12th', photoUrl: 'https://picsum.photos/seed/s8/100' },
-  { id: 's9', name: 'William Rodriguez', studentId: 'S009', grade: '10th', photoUrl: 'https://picsum.photos/seed/s9/100' },
-  { id: 's10', name: 'Sophia Martinez', studentId: 'S010', grade: '11th', photoUrl: 'https://picsum.photos/seed/s10/100' },
-  { id: 's11', name: 'James Hernandez', studentId: 'S011', grade: '9th', photoUrl: 'https://picsum.photos/seed/s11/100' },
-  { id: 's12', name: 'Amelia Lopez', studentId: 'S012', grade: '12th', photoUrl: 'https://picsum.photos/seed/s12/100' },
-  { id: 's13', name: 'Benjamin Gonzalez', studentId: 'S013', grade: '10th', photoUrl: 'https://picsum.photos/seed/s13/100' },
-  { id: 's14', name: 'Isabella Wilson', studentId: 'S014', grade: '11th', photoUrl: 'https://picsum.photos/seed/s14/100' },
-  { id: 's15', name: 'Lucas Anderson', studentId: 'S015', grade: '9th', photoUrl: 'https://picsum.photos/seed/s15/100' },
-  { id: 's16', name: 'Mia Thomas', studentId: 'S016', grade: '12th', photoUrl: 'https://picsum.photos/seed/s16/100' },
-  { id: 's17', name: 'Henry Taylor', studentId: 'S017', grade: '10th', photoUrl: 'https://picsum.photos/seed/s17/100' },
-  { id: 's18', name: 'Evelyn Moore', studentId: 'S018', grade: '11th', photoUrl: 'https://picsum.photos/seed/s18/100' },
-  { id: 's19', name: 'Alexander Jackson', studentId: 'S019', grade: '9th', photoUrl: 'https://picsum.photos/seed/s19/100' },
-  { id: 's20', name: 'Harper White', studentId: 'S020', grade: '12th', photoUrl: 'https://picsum.photos/seed/s20/100' },
-  { id: 's21', name: 'Sebastian Harris', studentId: 'S021', grade: '10th', photoUrl: 'https://picsum.photos/seed/s21/100' },
-  { id: 's22', name: 'Abigail Martin', studentId: 'S022', grade: '11th', photoUrl: 'https://picsum.photos/seed/s22/100' },
-  { id: 's23', name: 'Michael Thompson', studentId: 'S023', grade: '9th', photoUrl: 'https://picsum.photos/seed/s23/100' },
-  { id: 's24', name: 'Emily Garcia', studentId: 'S024', grade: '12th', photoUrl: 'https://picsum.photos/seed/s24/100' }
+const originalStudents: Omit<Student, 'grade' | 'photoUrl'>[] = [
+  { id: 's1', name: 'Liam Smith', studentId: 'S001'},
+  { id: 's2', name: 'Olivia Johnson', studentId: 'S002'},
+  { id: 's3', name: 'Noah Williams', studentId: 'S003'},
+  { id: 's4', name: 'Emma Brown', studentId: 'S004'},
+  { id: 's5', name: 'Oliver Jones', studentId: 'S005'},
+  { id: 's6', name: 'Ava Garcia', studentId: 'S006'},
+  { id: 's7', name: 'Elijah Miller', studentId: 'S007'},
+  { id: 's8', name: 'Charlotte Davis', studentId: 'S008'},
+  { id: 's9', name: 'William Rodriguez', studentId: 'S009'},
+  { id: 's10', name: 'Sophia Martinez', studentId: 'S010'},
+  { id: 's11', name: 'James Hernandez', studentId: 'S011'},
+  { id: 's12', name: 'Amelia Lopez', studentId: 'S012'},
+  { id: 's13', name: 'Benjamin Gonzalez', studentId: 'S013'},
+  { id: 's14', name: 'Isabella Wilson', studentId: 'S014'},
+  { id: 's15', name: 'Lucas Anderson', studentId: 'S015'},
+  { id: 's16', name: 'Mia Thomas', studentId: 'S016'},
+  { id: 's17', name: 'Henry Taylor', studentId: 'S017'},
+  { id: 's18', name: 'Evelyn Moore', studentId: 'S018'},
+  { id: 's19', name: 'Alexander Jackson', studentId: 'S019'},
+  { id: 's20', name: 'Harper White', studentId: 'S020'},
+  { id: 's21', name: 'Sebastian Harris', studentId: 'S021'},
+  { id: 's22', name: 'Abigail Martin', studentId: 'S022'},
+  { id: 's23', name: 'Michael Thompson', studentId: 'S023'},
+  { id: 's24', name: 'Emily Garcia', studentId: 'S024'}
 ];
+
+const firstNames = ['Mason', 'Ethan', 'Logan', 'Lucas', 'Jackson', 'Aiden', 'Elijah', 'James', 'Benjamin', 'Henry', 'Zoe', 'Lily', 'Chloe', 'Grace', 'Riley', 'Nora', 'Scarlett', 'Mila', 'Aubrey', 'Hannah'];
+const lastNames = ['Lee', 'Kim', 'Patel', 'Chen', 'Singh', 'Wang', 'Ali', 'Das', 'Khan', 'Kumar', 'Scott', 'Green', 'Adams', 'Baker', 'Nelson', 'Carter', 'Mitchell', 'Perez', 'Roberts', 'Turner'];
+
+// Generate 144 additional students to reach 168 total
+const additionalStudents: Omit<Student, 'grade' | 'photoUrl'>[] = [];
+for (let i = 0; i < 144; i++) {
+    const studentNum = i + 25;
+    additionalStudents.push({
+        id: `s${studentNum}`,
+        name: `${firstNames[i % firstNames.length]} ${lastNames[Math.floor(i / firstNames.length) % lastNames.length]}`,
+        studentId: `S${String(studentNum).padStart(3, '0')}`
+    });
+}
+
+const allStudentBases = [...originalStudents, ...additionalStudents];
+
+const grades = ['5th', '6th', '7th', '8th', '9th', '10th', '11th'];
+const studentGrades: string[] = [];
+
+grades.forEach(grade => {
+    // 12 Green students for this grade
+    for (let i = 0; i < 12; i++) {
+        studentGrades.push(`${grade} Green`);
+    }
+    // 12 Blue students for this grade
+    for (let i = 0; i < 12; i++) {
+        studentGrades.push(`${grade} Blue`);
+    }
+});
+
+export const initialStudents: Student[] = allStudentBases.map((student, index) => ({
+    ...student,
+    grade: studentGrades[index],
+    photoUrl: `https://picsum.photos/seed/${student.id}/100`,
+}));
+
 
 export const initialClubs: Club[] = [
   { id: 'c1', name: 'Debate Club', advisor: 'Mr. Peterson', memberIds: ['s1', 's2', 's3', 's4', 's5', 's20'] },
