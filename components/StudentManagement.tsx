@@ -145,7 +145,7 @@ const StudentManagement: React.FC<StudentManagementProps> = ({ students, addStud
                                 </div>
                                 <img className="w-24 h-24 rounded-full object-cover mx-auto mb-4 border-4 border-white shadow-lg" src={student.photoUrl} alt={student.name} />
                                 <h3 className="text-md font-bold text-slate-800 truncate" title={student.name}>{student.name}</h3>
-                                <p className="text-sm text-slate-600">{student.grade} Grade</p>
+                                <p className="text-sm text-slate-600">{student.grade}</p>
                                 <p className="text-xs text-slate-400 mt-1">ID: {student.studentId}</p>
                             </div>
                         ))}

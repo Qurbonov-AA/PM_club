@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
-import type { Club, Student } from '../types';
+import type { Club, Student, User } from '../types';
 import Modal from './Modal';
 import { PencilIcon, TrashIcon, PlusIcon } from './icons';
 
@@ -9,6 +10,7 @@ interface ClubManagementProps {
   addClub: (club: Omit<Club, 'id'>) => void;
   updateClub: (club: Club) => void;
   deleteClub: (clubId: string) => void;
+  currentUser: User;
 }
 
 const ClubForm: React.FC<{
@@ -90,7 +92,7 @@ const ClubForm: React.FC<{
     );
 }
 
-const ClubManagement: React.FC<ClubManagementProps> = ({ clubs, students, addClub, updateClub, deleteClub }) => {
+const ClubManagement: React.FC<ClubManagementProps> = ({ clubs, students, addClub, updateClub, deleteClub, currentUser }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [clubToEdit, setClubToEdit] = useState<Club | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
@@ -168,7 +170,9 @@ const ClubManagement: React.FC<ClubManagementProps> = ({ clubs, students, addClu
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{club.memberIds.length}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                         <button onClick={() => handleEditClick(club)} className="text-indigo-600 hover:text-indigo-900 p-1"><PencilIcon /></button>
-                                        <button onClick={() => handleDeleteClick(club.id)} className="text-red-600 hover:text-red-900 p-1"><TrashIcon /></button>
+                                        {currentUser.role === 'admin' && (
+                                            <button onClick={() => handleDeleteClick(club.id)} className="text-red-600 hover:text-red-900 p-1"><TrashIcon /></button>
+                                        )}
                                     </td>
                                 </tr>
                             ))}

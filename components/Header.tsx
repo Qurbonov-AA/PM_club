@@ -1,7 +1,7 @@
 
 import React from 'react';
 import type { Page, User } from '../types';
-import { ChartPieIcon, UsersIcon, CubeIcon, ClipboardCheckIcon, ShieldCheckIcon, LogoutIcon } from './icons';
+import { ChartPieIcon, UsersIcon, CubeIcon, ClipboardCheckIcon, ShieldCheckIcon, LogoutIcon, BookmarkIcon } from './icons';
 
 interface HeaderProps {
   currentPage: Page;
@@ -45,6 +45,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, currentUser, onLo
               <NavLink pageName="students" currentPage={currentPage} setPage={setPage} icon={<UsersIcon />}>Students</NavLink>
               <NavLink pageName="clubs" currentPage={currentPage} setPage={setPage} icon={<CubeIcon />}>Clubs</NavLink>
               <NavLink pageName="attendance" currentPage={currentPage} setPage={setPage} icon={<ClipboardCheckIcon />}>Attendance</NavLink>
+              <NavLink pageName="classes" currentPage={currentPage} setPage={setPage} icon={<BookmarkIcon />}>Classes</NavLink>
               {currentUser.role === 'admin' && (
                   <NavLink pageName="teachers" currentPage={currentPage} setPage={setPage} icon={<ShieldCheckIcon />}>Teachers</NavLink>
               )}
@@ -65,6 +66,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, currentUser, onLo
           <NavLink pageName="students" currentPage={currentPage} setPage={setPage} icon={<UsersIcon />}>Students</NavLink>
           <NavLink pageName="clubs" currentPage={currentPage} setPage={setPage} icon={<CubeIcon />}>Clubs</NavLink>
           <NavLink pageName="attendance" currentPage={currentPage} setPage={setPage} icon={<ClipboardCheckIcon />}>Attendance</NavLink>
+          <NavLink pageName="classes" currentPage={currentPage} setPage={setPage} icon={<BookmarkIcon />}>Classes</NavLink>
           {currentUser.role === 'admin' && (
              <NavLink pageName="teachers" currentPage={currentPage} setPage={setPage} icon={<ShieldCheckIcon />}>Teachers</NavLink>
           )}

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
 import type { Student, Club, Attendance, AttendanceStatus } from '../types';
 import { getTodayDateString } from '../utils/helpers';
 import { UsersIcon, CubeIcon } from './icons';
@@ -74,6 +74,18 @@ const Dashboard: React.FC<DashboardProps> = ({ students, clubs, attendance }) =>
         ];
     }, [attendance, filter]);
 
+    const gradeDistribution = useMemo(() => {
+        const grades: { [key: string]: number } = {};
+        students.forEach(student => {
+            const gradeKey = student.grade;
+            grades[gradeKey] = (grades[gradeKey] || 0) + 1;
+        });
+        return Object.entries(grades).map(([name, value]) => ({ name, value }));
+    }, [students]);
+
+    const PIE_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#A28CF2'];
+
+
     const todaysAttendanceWithDetails = useMemo(() => {
         const todaysRecords: { [studentId: string]: { student: Student; status: AttendanceStatus } } = {};
         const todayAttendances = attendance.filter(a => a.date === today);
@@ -141,8 +153,8 @@ const Dashboard: React.FC<DashboardProps> = ({ students, clubs, attendance }) =>
                 <StatCard title="Total Clubs" value={clubs.length} icon={<CubeIcon />} />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 bg-white p-12 rounded-lg shadow-md">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <div className="bg-white p-6 rounded-lg shadow-md">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-lg font-semibold text-slate-700">Attendance Overview</h3>
                         <div className="flex space-x-2">
@@ -168,30 +180,59 @@ const Dashboard: React.FC<DashboardProps> = ({ students, clubs, attendance }) =>
                     </div>
                 </div>
 
-                 <div className="bg-white p-12 rounded-lg shadow-md">
-                    <h3 className="text-lg font-semibold text-slate-700 mb-4">Today's Attendance Status</h3>
-                    {todaysAttendanceWithDetails.length > 0 ? (
-                        <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
-                            {todaysAttendanceWithDetails.map(({ student, status }) => (
-                                <div key={student.id} className={`flex items-center p-3 rounded-lg border-l-4 transition-colors duration-200 ${statusStyles[status].bg} ${statusStyles[status].border}`}>
-                                    <img src={student.photoUrl} alt={student.name} className="w-12 h-12 rounded-full object-cover" />
-                                    <div className="ml-4 flex-grow">
-                                        <p className="font-semibold text-slate-800">{student.name}</p>
-                                        <p className="text-sm text-slate-500">{student.grade} Grade</p>
-                                    </div>
-                                    <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${statusStyles[status].badge}`}>
-                                        {status.charAt(0).toUpperCase() + status.slice(1)}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="flex items-center justify-center h-full text-slate-500">
-                            <p>No attendance recorded for today yet.</p>
-                        </div>
-                    )}
+                 <div className="bg-white p-6 rounded-lg shadow-md">
+                    <h3 className="text-lg font-semibold text-slate-700 mb-4">Students by Grade</h3>
+                    <div style={{ width: '100%', height: 300 }}>
+                        <ResponsiveContainer>
+                            <PieChart>
+                                <Pie
+                                    data={gradeDistribution}
+                                    cx="50%"
+                                    cy="50%"
+                                    labelLine={false}
+                                    outerRadius={100}
+                                    fill="#8884d8"
+                                    dataKey="value"
+                                    nameKey="name"
+                                    // Fix: Coerce `percent` to a number before performing arithmetic to prevent type errors.
+                                    label={({ name, percent }) => `${name.replace(' Grade','')} ${((Number(percent) || 0) * 100).toFixed(0)}%`}
+                                >
+                                    {gradeDistribution.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip />
+                                <Legend />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
                 </div>
             </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-md">
+                <h3 className="text-lg font-semibold text-slate-700 mb-4">Today's Attendance Status</h3>
+                {todaysAttendanceWithDetails.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        {todaysAttendanceWithDetails.map(({ student, status }) => (
+                             <div key={student.id} className={`flex items-center p-3 rounded-lg border-l-4 transition-colors duration-200 ${statusStyles[status].bg} ${statusStyles[status].border}`}>
+                                <img src={student.photoUrl} alt={student.name} className="w-12 h-12 rounded-full object-cover" />
+                                <div className="ml-4 flex-grow">
+                                    <p className="font-semibold text-slate-800">{student.name}</p>
+                                    <p className="text-sm text-slate-500">{student.grade}</p>
+                                </div>
+                                <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${statusStyles[status].badge}`}>
+                                    {status.charAt(0).toUpperCase() + status.slice(1)}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="flex items-center justify-center h-48 text-slate-500">
+                        <p>No attendance recorded for today yet.</p>
+                    </div>
+                )}
+            </div>
+
              <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={modalData.title}>
                 {modalData.students.length > 0 ? (
                     <ul className="space-y-3 max-h-96 overflow-y-auto">
@@ -200,7 +241,7 @@ const Dashboard: React.FC<DashboardProps> = ({ students, clubs, attendance }) =>
                                 <img src={student.photoUrl} alt={student.name} className="w-10 h-10 rounded-full object-cover" />
                                 <div>
                                     <p className="font-medium text-slate-800">{student.name}</p>
-                                    <p className="text-sm text-slate-500">{student.grade} Grade</p>
+                                    <p className="text-sm text-slate-500">{student.grade}</p>
                                 </div>
                             </li>
                         ))}
